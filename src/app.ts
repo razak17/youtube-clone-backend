@@ -16,7 +16,7 @@ const main = async () => {
   );
 
   app.listen(port, async () => {
-    dbUri && (await connect(dbUri));
+    if (dbUri) await connect(dbUri);
   });
 };
 
