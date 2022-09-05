@@ -1,21 +1,22 @@
 import express from "express";
-import config from "config";
 import dotenv from "dotenv";
+import connect from "./utils/connect";
 dotenv.config();
 
 const main = async () => {
-  const PORT = config.get<number>("PORT");
+  const port = process.env.PORT;
+  const dbUri = process.env.DB_URI;
   const app = express();
-  app.use(express.json());
 
+  app.use(express.json());
   app.get("/", (req, res) =>
     res.json({
       message: "Hello Mom!",
     })
   );
 
-  app.listen(PORT, () => {
-    console.log(`server started on http://localhost:${PORT}`);
+  app.listen(port, async () => {
+    dbUri && (await connect(dbUri));
   });
 };
 
