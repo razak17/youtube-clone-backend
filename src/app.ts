@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import connect from "./utils/connect";
+import routes from "./routes";
 dotenv.config();
 
 const main = async () => {
@@ -9,14 +10,11 @@ const main = async () => {
   const app = express();
 
   app.use(express.json());
-  app.get("/", (req, res) =>
-    res.json({
-      message: "Hello Mom!",
-    })
-  );
 
   app.listen(port, async () => {
+    console.log(`server started on http://localhost:${port}`);
     if (dbUri) await connect(dbUri);
+    routes(app);
   });
 };
 
