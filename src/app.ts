@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
 import connect from "./utils/connect";
 import routes from "./routes";
-dotenv.config();
 
 const main = async () => {
   const port = process.env.PORT;

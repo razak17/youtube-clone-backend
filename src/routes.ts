@@ -1,4 +1,7 @@
 import { Express, Request, Response } from "express";
+import { createUserHandler } from "./controller/auth.controller";
+import validateResource from "./middleware/validateResource";
+import { createUserSchema } from "./schema/user.schema";
 
 export async function helloHandler(_: Request, res: Response) {
   return res.send({ message: "Hello Mom!" });
@@ -14,7 +17,7 @@ function routes(app: Express) {
   Auth route
   ************************************************************************************************/
   //Create a User
-  app.post("/api/auth/signup", helloHandler);
+  app.post("/api/auth/signup", validateResource(createUserSchema), createUserHandler);
 
   //Sign In
   app.post("/api/auth/signin", helloHandler);
