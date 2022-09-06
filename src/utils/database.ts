@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import logger from "./logger";
 
-async function connect(dbUri: string) {
+export async function connect(dbUri: string) {
   try {
     await mongoose.connect(dbUri);
     logger.info("DB connected");
@@ -11,5 +11,8 @@ async function connect(dbUri: string) {
   }
 }
 
-export default connect;
-
+export async function disconnectFromDatabase() {
+  await mongoose.connection.close();
+  logger.info("Disconnect from database");
+  return;
+}

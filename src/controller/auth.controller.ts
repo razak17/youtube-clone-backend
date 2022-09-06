@@ -1,14 +1,15 @@
-import { Request, Response } from "express";
-import { omit } from "lodash";
+import { Request, Response, NextFunction } from "express";
 import { FilterQuery } from "mongoose";
+import bcrypt from "bcrypt";
 
 import UserModel, { UserDocument } from "../models/user.model";
-import { CreateUserInput } from "../schema/user.schema";
+import { SignUpInput, SignInInput } from "../schema/user.schema";
 import logger from "../utils/logger";
+import { signJwt } from "../utils/jwt";
 
-export async function createUserHandler(
-  req: Request<{}, {}, CreateUserInput["body"]>,
-  res: Response,
+export async function signUpHandler(
+  req: Request<{}, {}, SignUpInput["body"]>,
+  res: Response
 ) {
   try {
     const user = await UserModel.create(req.body);
@@ -18,25 +19,37 @@ export async function createUserHandler(
     return res.status(409).send(e.message);
   }
 }
-
-export async function validatePassword({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) {
-  const user = await UserModel.findOne({ email });
-
-  if (!user) {
-    return false;
-  }
-
-  const isValid = await user.comparePassword(password);
-
-  if (!isValid) return false;
-
-  return omit(user.toJSON(), "password");
+export async function signInHandler(
+  req: Request<{}, {}, SignInInput["body"]>,
+  res: Response,
+  next: NextFunction
+) {
+    return res.send({ message: "Hello Mom!" });
+  //
+  // try {
+  //   const { name, password } = req.body;
+  //   const user = await UserModel.findOne({ name });
+  //   if (!user) return next(createError(res, 404, "User not found!"));
+  //
+  //   const isCorrect = await bcrypt.compare(password, user.password);
+  //   if (!isCorrect) return next(createError(res, 400, "Wrong Credentials!"));
+  //
+  //   const token = signJwt(
+  //     { ...user, id: user._id },
+  //     process.env.JWT as string,
+  //     { expiresIn: process.env.ACCESS_TOKEN_TTL as string } // 15 minutes
+  //   );
+  //   // const { password, ...others } = user._doc;
+  //
+  //   res
+  //     .cookie("access_token", token, {
+  //       httpOnly: true,
+  //     })
+  //     .status(200)
+  //     .json(user);
+  // } catch (err) {
+  //   next(err);
+  // }
 }
 
 export async function findUser(query: FilterQuery<UserDocument>) {
