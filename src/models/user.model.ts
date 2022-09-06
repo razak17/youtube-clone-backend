@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
 
 export interface UserInput {
   email: string;
@@ -37,18 +37,9 @@ userSchema.pre("save", async function (next) {
   if (!user.isModified("password")) {
     return next();
   }
-
-  const salt_factor = process.env.SALT_WORK_FACTOR;
-
-  if (salt_factor) {
-    const salt = await bcrypt.genSalt(parseInt(salt_factor));
-
-    const hash = bcrypt.hashSync(user.password, salt);
-
+    const hash = await argon2.hash(this.password);
     user.password = hash;
-
     return next();
-  }
 });
 
 userSchema.methods.comparePassword = async function (
@@ -56,7 +47,7 @@ userSchema.methods.comparePassword = async function (
 ): Promise<boolean> {
   const user = this as UserDocument;
 
-  return bcrypt.compare(candidatePassword, user.password).catch((e) => e);
+  return argon2.verify(candidatePassword, user.password);
 };
 
 const UserModel = mongoose.model<UserDocument>("User", userSchema);

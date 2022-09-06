@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { FilterQuery } from "mongoose";
-import bcrypt from "bcrypt";
 
 import UserModel, { UserDocument } from "../models/user.model";
 import { SignUpInput, SignInInput } from "../schema/user.schema";
@@ -25,31 +24,6 @@ export async function signInHandler(
   next: NextFunction
 ) {
     return res.send({ message: "Hello Mom!" });
-  //
-  // try {
-  //   const { name, password } = req.body;
-  //   const user = await UserModel.findOne({ name });
-  //   if (!user) return next(createError(res, 404, "User not found!"));
-  //
-  //   const isCorrect = await bcrypt.compare(password, user.password);
-  //   if (!isCorrect) return next(createError(res, 400, "Wrong Credentials!"));
-  //
-  //   const token = signJwt(
-  //     { ...user, id: user._id },
-  //     process.env.JWT as string,
-  //     { expiresIn: process.env.ACCESS_TOKEN_TTL as string } // 15 minutes
-  //   );
-  //   // const { password, ...others } = user._doc;
-  //
-  //   res
-  //     .cookie("access_token", token, {
-  //       httpOnly: true,
-  //     })
-  //     .status(200)
-  //     .json(user);
-  // } catch (err) {
-  //   next(err);
-  // }
 }
 
 export async function findUser(query: FilterQuery<UserDocument>) {
