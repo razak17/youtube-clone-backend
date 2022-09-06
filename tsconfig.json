@@ -21,6 +21,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "strictPropertyInitialization": false,
     "baseUrl": "."
   },
   "exclude": ["node_modules"],

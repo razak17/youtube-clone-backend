@@ -1,31 +1,38 @@
-import { Request, Response, NextFunction } from "express";
-import { FilterQuery } from "mongoose";
-
-import UserModel, { UserDocument } from "../models/user.model";
-import { SignUpInput, SignInInput } from "../schema/user.schema";
-import logger from "../utils/logger";
+import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import omit from "../utils/omit";
+import { findUserByEmail } from "../service/user.service";
+import { LoginBody } from "../schema/auth.schema";
 import { signJwt } from "../utils/jwt";
 
-export async function signUpHandler(
-  req: Request<{}, {}, SignUpInput["body"]>,
+export async function loginHandler(
+  req: Request<{}, {}, LoginBody>,
   res: Response
 ) {
-  try {
-    const user = await UserModel.create(req.body);
-    return res.send(user);
-  } catch (e: any) {
-    logger.error(e);
-    return res.status(409).send(e.message);
-  }
-}
-export async function signInHandler(
-  req: Request<{}, {}, SignInInput["body"]>,
-  res: Response,
-  next: NextFunction
-) {
-    return res.send({ message: "Hello Mom!" });
-}
-
-export async function findUser(query: FilterQuery<UserDocument>) {
-  return UserModel.findOne(query).lean();
+  return res.send({ message: "Hello Mom!" });
+  // const { email, password } = req.body;
+  //
+  // // find the user by email
+  // const user = await findUserByEmail(email);
+  //
+  // if (!user || !user.comparePassword(password)) {
+  //   return res
+  //     .status(StatusCodes.UNAUTHORIZED)
+  //     .send("Invalid email or password");
+  // }
+  //
+  // const payload = omit(user.toJSON(), ["password", "__v"]);
+  //
+  // const jwt = signJwt(payload);
+  //
+  // res.cookie("accessToken", jwt, {
+  //   maxAge: 3.154e10, // 1 year
+  //   httpOnly: true,
+  //   domain: "localhost",
+  //   path: "/",
+  //   sameSite: "strict",
+  //   secure: false,
+  // });
+  //
+  // return res.status(StatusCodes.OK).send(jwt);
 }

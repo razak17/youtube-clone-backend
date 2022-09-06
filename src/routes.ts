@@ -1,7 +1,9 @@
 import { Express, Request, Response } from "express";
-import { signInHandler, signUpHandler } from "./controller/auth.controller";
 import { processRequestBody } from "zod-express-middleware";
-import { signInSchema, signUpSchema } from "./schema/user.schema";
+import {  registerUserSchema } from "./schema/user.schema";
+import { loginSchema } from "./schema/auth.schema";
+import { registerUserHandler } from "./controller/user.controller";
+import { loginHandler } from "./controller/auth.controller";
 
 export async function helloHandler(_: Request, res: Response) {
   return res.send({ message: "Hello Mom!" });
@@ -17,10 +19,10 @@ function routes(app: Express) {
   Auth route
   ************************************************************************************************/
   //Create a User
-  app.post("/api/auth/signup", processRequestBody(signUpSchema.body), signUpHandler);
+  app.post("/api/auth/signup", processRequestBody(registerUserSchema.body), registerUserHandler);
 
   //Sign In
-  app.post("/api/auth/signin", processRequestBody(signInSchema.body), signInHandler);
+  app.post("/api/auth/signin", processRequestBody(loginSchema.body), loginHandler);
 
   //Google Auth
   app.post("/api/auth/google", helloHandler);

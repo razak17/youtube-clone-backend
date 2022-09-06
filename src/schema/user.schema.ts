@@ -1,39 +1,25 @@
 import { object, string, TypeOf } from "zod";
 
-export const signUpSchema = object({
+export const registerUserSchema = {
   body: object({
     email: string({
-      required_error: "Email is required",
+      required_error: "email is required",
     }).email("Not a valid email"),
     name: string({
-      required_error: "Name is required",
-    }),
+      required_error: "name is required",
+    }).min(2, "name must be at least 2 characters long"),
     password: string({
-      required_error: "Name is required",
-    }).min(6, "Password too short - should be 6 chars minimum"),
+      required_error: "password is required",
+    })
+      .min(6, "password must be at least 6 characters long")
+      .max(64, "password should not be longer than 64 characters"),
     confirmPassword: string({
       required_error: "confirmPassword is required",
     }),
   }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "passwords do not match",
     path: ["confirmPassword"],
   }),
-});
+};
 
-export const signInSchema = object({
-  body: object({
-    name: string({
-      required_error: "Name is required",
-    }),
-    password: string({
-      required_error: "Name is required",
-    }).min(6, "Password too short - should be 6 chars minimum"),
-  }),
-});
-
-export type SignUpInput = Omit<
-  TypeOf<typeof signUpSchema>,
-  "body.confirmPassword"
->;
-
-export type SignInInput = TypeOf<typeof signInSchema>;
+export type RegisterUserBody = TypeOf<typeof registerUserSchema.body>;
