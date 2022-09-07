@@ -3,6 +3,7 @@ import { processRequestBody } from "zod-express-middleware";
 
 import requireUser from "../middleware/requireUser";
 import {
+  deleteUserHandler,
   registerUserHandler,
   updateUserHandler,
 } from "../controller/user.controller";
@@ -32,21 +33,21 @@ router.put(
 );
 
 //delete user
-router.delete("/:id", helloHandler);
+router.delete("/:userId", requireUser, deleteUserHandler);
 
 //get a user
-router.get("/:id", helloHandler);
+router.get("/:userId", requireUser, helloHandler);
 
 //subscribe a user
-router.put("/sub/:id", helloHandler);
+router.put("/sub/:userId", requireUser, helloHandler);
 
 //unsubscribe a user
-router.put("/unsub/:id", helloHandler);
+router.put("/unsub/:userId", requireUser, helloHandler);
 
 //like a video
-router.put("/like/:videoId", helloHandler);
+router.put("/like/:videoId", requireUser, helloHandler);
 
 //dislike a video
-router.put("/dislike/:videoId", helloHandler);
+router.put("/dislike/:videoId", requireUser, helloHandler);
 
 export default router;
