@@ -5,6 +5,7 @@ import requireUser from "../middleware/requireUser";
 import {
   deleteUserHandler,
   registerUserHandler,
+  subscribeHandler,
   updateUserHandler,
 } from "../controller/user.controller";
 import { registerUserSchema, updateUserSchema } from "../schema/user.schema";
@@ -13,7 +14,7 @@ import { helloHandler } from "../routes";
 const router = express.Router();
 
 //get current user
-router.get("/me", requireUser, (req, res) => {
+router.get("/me", requireUser, (_, res) => {
   return res.send(res.locals.user);
 });
 
@@ -35,11 +36,8 @@ router.put(
 //delete user
 router.delete("/:userId", requireUser, deleteUserHandler);
 
-//get a user
-router.get("/:userId", requireUser, helloHandler);
-
 //subscribe a user
-router.put("/sub/:userId", requireUser, helloHandler);
+router.put("/sub/:id", requireUser, subscribeHandler);
 
 //unsubscribe a user
 router.put("/unsub/:userId", requireUser, helloHandler);

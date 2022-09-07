@@ -13,6 +13,15 @@ export async function findUserByEmail(email: User["email"]) {
   return UserModel.findOne({ email });
 }
 
+export async function subscribe(userId: string, id: string) {
+  await UserModel.findByIdAndUpdate(userId, {
+    $push: { subscribedUsers: id },
+  });
+  await UserModel.findByIdAndUpdate(id, {
+    $inc: { subscribers: 1 },
+  });
+}
+
 export async function updateUser(
   userId: string,
   update: object,

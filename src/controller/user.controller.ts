@@ -6,7 +6,12 @@ import {
   UpdateUserBody,
   UpdateUserParams,
 } from "../schema/user.schema";
-import { createUser, deleteUser, updateUser } from "../service/user.service";
+import {
+  createUser,
+  deleteUser,
+  subscribe,
+  updateUser,
+} from "../service/user.service";
 
 export async function registerUserHandler(
   req: Request<{}, {}, RegisterUserBody>,
@@ -48,19 +53,26 @@ export const updateUserHandler = async (
   }
 };
 
-export const deleteUserHandler = async (
-  req: Request<UpdateUserParams, {}, UpdateUserBody>,
-  res: Response
-) => {
+export const deleteUserHandler = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   if (userId !== res.locals.user._id) {
-    return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized");
+    return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized.");
   }
 
   try {
     await deleteUser(userId);
-    res.status(StatusCodes.OK).json("User deleted");
+    res.status(StatusCodes.OK).send("User deleted");
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+};
+
+export const subscribeHandler = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await subscribe(res.locals.user._id, id);
+    res.status(StatusCodes.OK).send("Subscribed successfully.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
