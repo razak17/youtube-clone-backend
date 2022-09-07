@@ -63,7 +63,7 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
 
   try {
     await deleteUser(userId);
-    res.status(StatusCodes.OK).send("User deleted");
+    res.status(StatusCodes.OK).send("User deleted.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }

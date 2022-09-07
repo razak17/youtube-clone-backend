@@ -23,3 +23,7 @@ export async function updateVideo(
 
   return updatedVideo;
 }
+
+export async function deleteVideo(videoId: string) {
+  return VideoModel.findByIdAndDelete(videoId);
+}
