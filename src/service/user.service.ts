@@ -1,6 +1,11 @@
 import { User, UserModel } from "../models/user.model";
 
-export async function createUser(user: Omit<User, "comparePassword">) {
+export async function createUser(
+  user: Omit<
+    User,
+    "comparePassword" | "profilePic" | "subCount" | "subscribers" | "fromGoogle"
+  >
+) {
   return UserModel.create(user);
 }
 

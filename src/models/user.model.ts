@@ -19,13 +19,13 @@ export class User {
   @prop({ required: true })
   public password: string;
 
-  @prop({})
-  public img: string;
+  @prop({ default: "default" })
+  public profilePic: string;
 
   @prop({ default: 0 })
   public subCount: number;
 
-  @prop({ allowMixed: "ALLOW", ref: "", localField: "", foreignField: "" })
+  @prop()
   public subscribers: string[];
 
   @prop({ default: false })

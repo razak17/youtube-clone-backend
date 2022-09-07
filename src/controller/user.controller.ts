@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+
 import {
   RegisterUserBody,
   UpdateUserBody,
@@ -12,22 +13,9 @@ export async function registerUserHandler(
   res: Response
 ) {
   const { name, email, password } = req.body;
-  const img = "";
-  const subCount = 0;
-  const subscribers = [] as string[];
-  const fromGoogle = false;
 
   try {
-    await createUser({
-      name,
-      email,
-      password,
-      img,
-      subCount,
-      subscribers,
-      fromGoogle,
-    });
-
+    await createUser({ name, email, password });
     return res.status(StatusCodes.CREATED).send("user created successfully");
   } catch (e) {
     if (e.code === 11000) {
@@ -48,8 +36,11 @@ export const updateUserHandler = async (
   }
 
   try {
-    const body = req.body;
-    const updatedUser = await updateUser(userId, body, { new: true });
+    const updatedUser = await updateUser(
+      userId,
+      { ...req.body },
+      { new: true }
+    );
 
     res.status(StatusCodes.OK).json(updatedUser);
   } catch (e) {
