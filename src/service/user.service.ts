@@ -7,7 +7,12 @@ export async function findUserByEmail(email: User["email"]) {
 export async function createUser(
   user: Omit<
     User,
-    "comparePassword" | "profilePic" | "subCount" | "subscribers" | "fromGoogle"
+    | "comparePassword"
+    | "profilePic"
+    | "subscriberCount"
+    | "subscribers"
+    | "subscriptions"
+    | "fromGoogle"
   >
 ) {
   return UserModel.create(user);
@@ -28,7 +33,7 @@ export async function deleteUser(userId: string) {
 export async function subscribe(userId: string, id: string) {
   await UserModel.findByIdAndUpdate(userId, { $push: { subscriptions: id } });
   await UserModel.findByIdAndUpdate(id, {
-    $inc: { subCount: 1 },
+    $inc: { subscriberCount: 1 },
     $push: { subscribers: userId },
   });
 }
@@ -36,7 +41,7 @@ export async function subscribe(userId: string, id: string) {
 export async function unsubscribe(userId: string, id: string) {
   await UserModel.findByIdAndUpdate(userId, { $pull: { subscriptions: id } });
   await UserModel.findByIdAndUpdate(id, {
-    $inc: { subCount: -1 },
+    $inc: { subscriberCount: -1 },
     $pull: { subscribers: id },
   });
 }

@@ -23,7 +23,7 @@ export class User {
   public profilePic: string;
 
   @prop({ default: 0 })
-  public subCount: number;
+  public subscriberCount: number;
 
   @prop()
   public subscriptions: string[];
