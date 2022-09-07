@@ -1,9 +1,13 @@
 import express from "express";
-import { uploadVideoHandler } from "src/controller/video.controller";
-import requireUser from "src/middleware/requireUser";
-import { helloHandler } from "../routes";
 import { processRequestBody } from "zod-express-middleware";
-import { uploadVideoSchema } from "../schema/video.schema";
+
+import { helloHandler } from "../routes";
+import requireUser from "../middleware/requireUser";
+import { updateVideoSchema, uploadVideoSchema } from "../schema/video.schema";
+import {
+  updateVideoHandler,
+  uploadVideoHandler,
+} from "../controller/video.controller";
 
 const router = express.Router();
 
@@ -16,7 +20,12 @@ router.post(
 );
 
 // Update Video
-router.put("/:videoId", requireUser, helloHandler);
+router.put(
+  "/:videoId",
+  requireUser,
+  processRequestBody(updateVideoSchema.body),
+  updateVideoHandler
+);
 
 // Delete video
 router.delete("/:videoId", requireUser, helloHandler);

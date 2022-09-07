@@ -9,3 +9,17 @@ export async function uploadVideo(
 
   return savedVideo;
 }
+
+export async function updateVideo(
+  videoId: string,
+  update: Omit<Video, "ownerId" | "tags" | "likes" | "dislikes" | "views">,
+  options: object
+) {
+  const updatedVideo = await VideoModel.findByIdAndUpdate(
+    videoId,
+    { $set: update },
+    options
+  );
+
+  return updatedVideo;
+}

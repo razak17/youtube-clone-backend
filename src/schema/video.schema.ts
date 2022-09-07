@@ -1,4 +1,4 @@
-import { boolean, object, string, TypeOf } from "zod";
+import { object, string, TypeOf } from "zod";
 
 export const uploadVideoSchema = {
   body: object({
@@ -15,7 +15,8 @@ export const updateVideoSchema = {
   body: object({
     title: string(),
     description: string(),
-    published: boolean(),
+    thumbnailUrl: string(),
+    videoUrl: string(),
   }),
   params: object({
     videoId: string(),
