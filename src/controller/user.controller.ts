@@ -87,7 +87,14 @@ export const subscribeHandler = async (req: Request, res: Response) => {
 export const unsubscribeHandler = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await unsubscribe(res.locals.user._id, id);
+    const userId = res.locals.user._id;
+
+    if (id === userId) {
+      res
+        .status(StatusCodes.FORBIDDEN)
+        .send("Cannot unsub to your own channel.");
+    }
+    await unsubscribe(userId, id);
     res.status(StatusCodes.OK).send("Unsubscribed successfully.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);

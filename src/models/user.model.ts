@@ -26,6 +26,9 @@ export class User {
   public subCount: number;
 
   @prop()
+  public subscriptions: string[];
+
+  @prop()
   public subscribers: string[];
 
   @prop({ default: false })
