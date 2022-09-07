@@ -12,29 +12,6 @@ function routes(app: Express) {
   app.post("/api/auth/google", helloHandler);
 
   /************************************************************************************************
-  Videos route
-  ************************************************************************************************/
-  app.post("/api/video/", helloHandler);
-
-  app.put("/api/video/:id", helloHandler);
-
-  app.delete("/api/video/:id", helloHandler);
-
-  app.get("/api/video/find/:id", helloHandler);
-
-  app.put("/api/video/view/:id", helloHandler);
-
-  app.get("/api/video/trend", helloHandler);
-
-  app.get("/api/video/random", helloHandler);
-
-  app.get("/api/video/sub", helloHandler);
-
-  app.get("/api/video/tags", helloHandler);
-
-  app.get("/api/video/search", helloHandler);
-
-  /************************************************************************************************
   Comments route
   ************************************************************************************************/
   app.post("/api/comments/", helloHandler);

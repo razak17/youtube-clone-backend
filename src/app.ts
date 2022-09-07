@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import authRoute from "./routes/auth.route";
 import userRoute from "./routes/user.route";
+import videoRoute from "./routes/video.route";
 import { connect } from "./utils/database";
 import deserializeUser from "./middleware/deserializeUser";
 
@@ -18,6 +19,7 @@ const main = async () => {
 
   app.use("/api/users", userRoute);
   app.use("/api/auth", authRoute);
+  app.use("/api/videos", videoRoute);
 
   app.listen(port, async () => {
     console.log(`server started on http://localhost:${port}`);
