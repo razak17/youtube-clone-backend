@@ -1,7 +1,7 @@
 import { Express, Request, Response } from "express";
 
 export async function helloHandler(_: Request, res: Response) {
-  return res.send({ message: "Hello Mom!" });
+  return res.send({ message: "Hello Mom2!" });
 }
 
 function routes(app: Express) {
@@ -19,26 +19,6 @@ function routes(app: Express) {
   /************************************************************************************************
   Users route
   ************************************************************************************************/
-  //update user
-  app.put("/api/users/:id", helloHandler);
-
-  //delete user
-  app.delete("/api/users/:id", helloHandler);
-
-  //get a user
-  app.get("/api/users/:id", helloHandler);
-
-  //subscribe a user
-  app.put("/api/users/sub/:id", helloHandler);
-
-  //unsubscribe a user
-  app.put("/api/users/unsub/:id", helloHandler);
-
-  //like a video
-  app.put("/api/users/like/:videoId", helloHandler);
-
-  //dislike a video
-  app.put("/api/users/dislike/:videoId", helloHandler);
 
   /************************************************************************************************
   Videos route

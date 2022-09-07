@@ -22,4 +22,20 @@ export const registerUserSchema = {
   }),
 };
 
+export const updateUserSchema = {
+  body: object({
+    email: string({
+      required_error: "email is required",
+    }).email("Not a valid email"),
+    name: string({
+      required_error: "name is required",
+    }),
+  }),
+  params: object({
+    userId: string(),
+  }),
+};
+
 export type RegisterUserBody = TypeOf<typeof registerUserSchema.body>;
+export type UpdateUserBody = TypeOf<typeof updateUserSchema.body>;
+export type UpdateUserParams = TypeOf<typeof updateUserSchema.params>;
