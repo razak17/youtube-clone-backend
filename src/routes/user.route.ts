@@ -6,6 +6,7 @@ import {
   deleteUserHandler,
   registerUserHandler,
   subscribeHandler,
+  unsubscribeHandler,
   updateUserHandler,
 } from "../controller/user.controller";
 import { registerUserSchema, updateUserSchema } from "../schema/user.schema";
@@ -40,7 +41,7 @@ router.delete("/:userId", requireUser, deleteUserHandler);
 router.put("/sub/:id", requireUser, subscribeHandler);
 
 //unsubscribe a user
-router.put("/unsub/:userId", requireUser, helloHandler);
+router.put("/unsub/:userId", requireUser, unsubscribeHandler);
 
 //like a video
 router.put("/like/:videoId", requireUser, helloHandler);
