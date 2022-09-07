@@ -5,6 +5,8 @@ import { helloHandler } from "../routes";
 import requireUser from "../middleware/requireUser";
 import { updateVideoSchema, uploadVideoSchema } from "../schema/video.schema";
 import {
+  deleteVideoHandler,
+  findVideoHandler,
   updateVideoHandler,
   uploadVideoHandler,
 } from "../controller/video.controller";
@@ -28,10 +30,10 @@ router.put(
 );
 
 // Delete video
-router.delete("/:videoId", requireUser, helloHandler);
+router.delete("/:videoId", requireUser, deleteVideoHandler);
 
 // Find video by id
-router.get("/find/:videoId", requireUser, helloHandler);
+router.get("/find/:videoId", requireUser, findVideoHandler);
 
 router.put("/view/:videoId", helloHandler);
 

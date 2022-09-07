@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import {
   deleteVideo,
+  findVideoById,
   updateVideo,
   uploadVideo,
 } from "../service/video.service";
@@ -66,7 +67,18 @@ export async function deleteVideoHandler(req: Request, res: Response) {
 
   try {
     await deleteVideo(videoId);
-    return res.status(StatusCodes.OK).json("video deleted.");
+    return res.status(StatusCodes.OK).send("video deleted.");
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+}
+
+export async function findVideoHandler(req: Request, res: Response) {
+  const videoId = req.params.videoId;
+
+  try {
+    const video = await findVideoById(videoId);
+    return res.status(StatusCodes.OK).json(video);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }

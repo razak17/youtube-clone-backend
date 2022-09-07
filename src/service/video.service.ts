@@ -27,3 +27,7 @@ export async function updateVideo(
 export async function deleteVideo(videoId: string) {
   return VideoModel.findByIdAndDelete(videoId);
 }
+
+export async function findVideoById(videoId: string) {
+  return VideoModel.findById(videoId);
+}
