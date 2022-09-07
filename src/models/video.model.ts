@@ -1,4 +1,4 @@
-import { getModelForClass, prop  } from "@typegoose/typegoose";
+import { getModelForClass, prop } from "@typegoose/typegoose";
 
 export class Video {
   @prop()
@@ -30,7 +30,5 @@ export class Video {
 }
 
 export const VideoModel = getModelForClass(Video, {
-  schemaOptions: {
-    timestamps: true,
-  },
+  schemaOptions: { timestamps: true },
 });

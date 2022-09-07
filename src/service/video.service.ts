@@ -1,3 +1,4 @@
+import { UserModel } from "../models/user.model";
 import { Video, VideoModel } from "../models/video.model";
 
 export async function uploadVideo(
@@ -40,6 +41,22 @@ export async function increaseViewCount(videoId: string) {
 
 export async function getRandomVideos(count: number) {
   return await VideoModel.aggregate([{ $sample: { size: count } }]);
+}
+
+export async function getSubbedVideos(userId: string) {
+  const user = await UserModel.findById(userId);
+  const subbedChannels = user?.subscribers;
+
+  if (!subbedChannels || user.subCount === 0) {
+    return false;
+  }
+
+  const list = await Promise.all(
+    subbedChannels.map(async (channelId) => {
+      return await VideoModel.find({ ownerId: channelId });
+    })
+  );
+  return list;
 }
 
 export async function getTrendingVideos() {

@@ -8,6 +8,8 @@ import {
   deleteVideoHandler,
   findVideoHandler,
   randomVideosHandler,
+  subbedVideosHandler,
+  trendingVideosHandler,
   updateVideoHandler,
   uploadVideoHandler,
   viewCountHandler,
@@ -41,10 +43,10 @@ router.get("/find/:videoId", requireUser, findVideoHandler);
 router.put("/view/:videoId", requireUser, viewCountHandler);
 
 // Get trending videos
-router.get("/trend", requireUser, trendingVideosHandler);
+router.get("/trending", requireUser, trendingVideosHandler);
 
 // Get subscribed channels videos
-router.get("/sub", requireUser, helloHandler);
+router.get("/subbed", requireUser, subbedVideosHandler);
 
 // Get videos randomly (for home page)
 router.get("/random", randomVideosHandler);

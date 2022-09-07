@@ -5,6 +5,7 @@ import {
   deleteVideo,
   findVideoById,
   getRandomVideos,
+  getSubbedVideos,
   getTrendingVideos,
   increaseViewCount,
   updateVideo,
@@ -78,7 +79,6 @@ export async function deleteVideoHandler(req: Request, res: Response) {
 
 export async function findVideoHandler(req: Request, res: Response) {
   const videoId = req.params.videoId;
-
   try {
     const video = await findVideoById(videoId);
     return res.status(StatusCodes.OK).json(video);
@@ -89,7 +89,6 @@ export async function findVideoHandler(req: Request, res: Response) {
 
 export async function viewCountHandler(req: Request, res: Response) {
   const videoId = req.params.videoId;
-
   try {
     await increaseViewCount(videoId);
     return res.status(StatusCodes.OK).send("View count has increased by 1.");
@@ -110,6 +109,16 @@ export async function randomVideosHandler(_: Request, res: Response) {
 export async function trendingVideosHandler(_: Request, res: Response) {
   try {
     const videos = await getTrendingVideos();
+    return res.status(StatusCodes.OK).json(videos);
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+}
+
+export async function subbedVideosHandler(_: Request, res: Response) {
+  const userId = res.locals.user._id;
+  try {
+    const videos = await getSubbedVideos(userId);
     return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
