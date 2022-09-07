@@ -7,6 +7,7 @@ import { updateVideoSchema, uploadVideoSchema } from "../schema/video.schema";
 import {
   deleteVideoHandler,
   findVideoHandler,
+  randomVideosHandler,
   updateVideoHandler,
   uploadVideoHandler,
   viewCountHandler,
@@ -40,16 +41,18 @@ router.get("/find/:videoId", requireUser, findVideoHandler);
 router.put("/view/:videoId", requireUser, viewCountHandler);
 
 // Get trending videos
-router.get("/trend", requireUser, helloHandler);
+router.get("/trend", requireUser, trendingVideosHandler);
 
 // Get subscribed channels videos
 router.get("/sub", requireUser, helloHandler);
 
 // Get videos randomly (for home page)
-router.get("/random", helloHandler);
+router.get("/random", randomVideosHandler);
 
+// Get videos by tag
 router.get("/tags", helloHandler);
 
+// Video Search
 router.get("/search", helloHandler);
 
 export default router;

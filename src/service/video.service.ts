@@ -41,3 +41,7 @@ export async function increaseViewCount(videoId: string) {
 export async function getRandomVideos(count: number) {
   return await VideoModel.aggregate([{ $sample: { size: count } }]);
 }
+
+export async function getTrendingVideos() {
+  return await VideoModel.find().sort({ views: -1 });
+}
