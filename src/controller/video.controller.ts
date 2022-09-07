@@ -12,7 +12,7 @@ import {
   uploadVideo,
 } from "../service/video.service";
 import { UpdateVideoParams, UploadVideoBody } from "../schema/video.schema";
-import { VideoModel } from "src/models/video.model";
+import { VideoModel } from "../models/video.model";
 
 export async function uploadVideoHandler(
   req: Request<{}, {}, UploadVideoBody>,

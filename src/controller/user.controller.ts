@@ -72,7 +72,12 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
 export const subscribeHandler = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await subscribe(res.locals.user._id, id);
+    const userId = res.locals.user._id;
+
+    if (id === userId) {
+      res.status(StatusCodes.FORBIDDEN).send("Cannot sub to your own channel.");
+    }
+    await subscribe(userId, id);
     res.status(StatusCodes.OK).send("Subscribed successfully.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);

@@ -2,7 +2,6 @@ import { object, string, TypeOf } from "zod";
 
 export const uploadVideoSchema = {
   body: object({
-    ownerId: string(),
     title: string(),
     description: string(),
     thumbnailUrl: string(),

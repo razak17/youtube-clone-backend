@@ -26,19 +26,11 @@ export async function deleteUser(userId: string) {
 }
 
 export async function subscribe(userId: string, id: string) {
-  await UserModel.findByIdAndUpdate(userId, {
-    $push: { subscribedUsers: id },
-  });
-  await UserModel.findByIdAndUpdate(id, {
-    $inc: { subscribers: 1 },
-  });
+  await UserModel.findByIdAndUpdate(userId, { $push: { subscribers: id } });
+  await UserModel.findByIdAndUpdate(id, { $inc: { subCount: 1 } });
 }
 
 export async function unsubscribe(userId: string, id: string) {
-  await UserModel.findByIdAndUpdate(userId, {
-    $pull: { subscribedUsers: id },
-  });
-  await UserModel.findByIdAndUpdate(id, {
-    $inc: { subscribers: -1 },
-  });
+  await UserModel.findByIdAndUpdate(userId, { $pull: { subscribers: id } });
+  await UserModel.findByIdAndUpdate(id, { $inc: { subCount: -1 } });
 }

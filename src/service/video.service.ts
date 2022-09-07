@@ -5,7 +5,7 @@ export async function uploadVideo(
   ownerId: string,
   update: Omit<Video, "ownerId" | "tags" | "likes" | "dislikes" | "views">
 ) {
-  const newVideo = new VideoModel({ ownerId, update });
+  const newVideo = new VideoModel({ ownerId, ...update });
   const savedVideo = await newVideo.save();
 
   return savedVideo;
@@ -43,6 +43,10 @@ export async function getRandomVideos(count: number) {
   return await VideoModel.aggregate([{ $sample: { size: count } }]);
 }
 
+export async function getTrendingVideos() {
+  return await VideoModel.find().sort({ views: -1 });
+}
+
 export async function getSubbedVideos(userId: string) {
   const user = await UserModel.findById(userId);
   const subbedChannels = user?.subscribers;
@@ -52,13 +56,9 @@ export async function getSubbedVideos(userId: string) {
   }
 
   const list = await Promise.all(
-    subbedChannels.map(async (channelId) => {
-      return await VideoModel.find({ ownerId: channelId });
+    subbedChannels.map(async (creatorId) => {
+      return await VideoModel.find({ ownerId: creatorId });
     })
   );
   return list;
-}
-
-export async function getTrendingVideos() {
-  return await VideoModel.find().sort({ views: -1 });
 }
