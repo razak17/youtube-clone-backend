@@ -31,3 +31,9 @@ export async function deleteVideo(videoId: string) {
 export async function findVideoById(videoId: string) {
   return VideoModel.findById(videoId);
 }
+
+export async function increaseViewCount(videoId: string) {
+  return await VideoModel.findByIdAndUpdate(videoId, {
+    $inc: { views: 1 },
+  });
+}

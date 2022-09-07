@@ -9,6 +9,7 @@ import {
   findVideoHandler,
   updateVideoHandler,
   uploadVideoHandler,
+  viewCountHandler,
 } from "../controller/video.controller";
 
 const router = express.Router();
@@ -35,13 +36,17 @@ router.delete("/:videoId", requireUser, deleteVideoHandler);
 // Find video by id
 router.get("/find/:videoId", requireUser, findVideoHandler);
 
-router.put("/view/:videoId", helloHandler);
+// Update video view count
+router.put("/view/:videoId", requireUser, viewCountHandler);
 
-router.get("/trend", helloHandler);
+// Get trending videos
+router.get("/trend", requireUser, helloHandler);
 
+// Get subscribed channels videos
+router.get("/sub", requireUser, helloHandler);
+
+// Get videos randomly (for home page)
 router.get("/random", helloHandler);
-
-router.get("/sub", helloHandler);
 
 router.get("/tags", helloHandler);
 
