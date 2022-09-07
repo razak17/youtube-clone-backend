@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import logger from "./logger";
 
-export async function connect(dbUri: string) {
+export async function connect() {
   try {
-    await mongoose.connect(dbUri);
+    await mongoose.connect(process.env.DB_URI as string);
     logger.info("DB connected");
   } catch (error) {
     logger.error("Could not connect to db");

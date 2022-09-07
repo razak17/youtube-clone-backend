@@ -1,34 +1,17 @@
 import jwt from "jsonwebtoken";
 
-export function signJwt(
-  object: Object,
-  keyName: string,
-  options?: jwt.SignOptions | undefined
-) {
-  const signingKey = Buffer.from(keyName, "base64").toString("ascii");
+const JWT_SECRET = process.env.JWT_SECRET || "thequickbrownfox";
+const EXPIRES_IN = process.env.EXPIRES_IN || "9d";
 
-  return jwt.sign(object, signingKey, {
-    ...(options && options),
-    algorithm: "RS256",
-  });
+export function signJwt(payload: string | Buffer | object) {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: EXPIRES_IN });
 }
 
-export function verifyJwt(token: string, keyName: string) {
-  const publicKey = Buffer.from(keyName, "base64").toString("ascii");
-
+export function verifyJwt(token: string) {
   try {
-    const decoded = jwt.verify(token, publicKey);
-    return {
-      valid: true,
-      expired: false,
-      decoded,
-    };
-  } catch (e: any) {
-    console.error(e);
-    return {
-      valid: false,
-      expired: e.message === "jwt expired",
-      decoded: null,
-    };
+    const decoded = jwt.verify(token, JWT_SECRET);
+    return decoded;
+  } catch (e) {
+    return null;
   }
 }

@@ -29,7 +29,6 @@ export async function registerUserHandler(
     if (e.code === 11000) {
       return res.status(StatusCodes.CONFLICT).send("User already exists");
     }
-
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
 }

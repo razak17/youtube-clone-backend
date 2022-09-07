@@ -8,15 +8,14 @@ import routes from "./routes";
 
 const main = async () => {
   const port = process.env.PORT;
-  const dbUri = process.env.DB_URI;
   const app = express();
 
-  app.use(express.json());
   app.use(cookieParser());
+  app.use(express.json());
 
   app.listen(port, async () => {
     console.log(`server started on http://localhost:${port}`);
-    await connect(dbUri as string);
+    await connect();
     routes(app);
   });
 };
