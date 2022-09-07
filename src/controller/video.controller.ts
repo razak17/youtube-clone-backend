@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import {
   deleteVideo,
   findVideoById,
+  getRandomVideos,
   increaseViewCount,
   updateVideo,
   uploadVideo,
@@ -90,7 +91,16 @@ export async function viewCountHandler(req: Request, res: Response) {
 
   try {
     await increaseViewCount(videoId);
-    return res.status(StatusCodes.OK).json("View count has increased by 1");
+    return res.status(StatusCodes.OK).send("View count has increased by 1");
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+}
+
+export async function randomVideosHandler(req: Request, res: Response) {
+  try {
+    const videos = await getRandomVideos(40);
+    return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }

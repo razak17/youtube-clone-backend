@@ -37,3 +37,7 @@ export async function increaseViewCount(videoId: string) {
     $inc: { views: 1 },
   });
 }
+
+export async function getRandomVideos(count: number) {
+  return await VideoModel.aggregate([{ $sample: { size: count } }]);
+}
