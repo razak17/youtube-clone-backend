@@ -7,10 +7,9 @@ export async function newCommentHandler(
   req: Request<{}, {}, newCommentBody>,
   res: Response
 ) {
-  const user = res.locals.user;
-  console.log(user);
+  const userId = res.locals.user._id;
   try {
-    const comment = await addComment(user, { ...req.body });
+    const comment = await addComment(userId, { ...req.body });
     return res.status(StatusCodes.OK).json(comment);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
