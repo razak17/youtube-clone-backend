@@ -3,8 +3,12 @@ import { StatusCodes } from "http-status-codes";
 import { addComment } from "../service/comment.service";
 import { newCommentBody } from "../schema/comment.schema";
 
-export async function newCommentHandler(req: Request, res: Response) {
+export async function newCommentHandler(
+  req: Request<{}, {}, newCommentBody>,
+  res: Response
+) {
   const user = res.locals.user;
+  console.log(user);
   try {
     const comment = await addComment(user, { ...req.body });
     return res.status(StatusCodes.OK).json(comment);

@@ -20,10 +20,9 @@ export async function uploadVideoHandler(
   req: Request<{}, {}, UploadVideoBody>,
   res: Response
 ) {
-  const userId = res.locals.user._id;
-
+  const user = res.locals.user;
   try {
-    const video = await uploadVideo(userId, { ...req.body });
+    const video = await uploadVideo(user, { ...req.body });
     return res.status(StatusCodes.OK).json(video);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
@@ -34,15 +33,16 @@ export async function updateVideoHandler(
   req: Request<UpdateVideoParams, {}, UploadVideoBody>,
   res: Response
 ) {
-  const userId = res.locals.user._id;
+  const userId = res.locals.user._doc;
   const videoId = req.params.videoId;
+  console.log(userId);
   const video = await VideoModel.findById(videoId);
 
   if (!video) {
     return res.status(StatusCodes.NOT_FOUND).send("Video not found.");
   }
 
-  if (userId !== video.ownerId) {
+  if (userId !== video.owner) {
     return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized.");
   }
 
@@ -67,7 +67,7 @@ export async function deleteVideoHandler(req: Request, res: Response) {
     return res.status(StatusCodes.NOT_FOUND).send("Video not found.");
   }
 
-  if (userId !== video.ownerId) {
+  if (userId !== video.owner) {
     return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized.");
   }
 
@@ -127,10 +127,7 @@ export async function subbedVideosHandler(_: Request, res: Response) {
   }
 }
 
-export async function getVideosByTagsHandler(
-  req: Request,
-  res: Response
-) {
+export async function getVideosByTagsHandler(req: Request, res: Response) {
   const tags = req.query.tags as string;
   const videoTags = tags.split(",");
   try {
@@ -141,10 +138,7 @@ export async function getVideosByTagsHandler(
   }
 }
 
-export async function videoSearchHandler(
-  req: Request,
-  res: Response
-) {
+export async function videoSearchHandler(req: Request, res: Response) {
   const query = req.query.q as string;
   try {
     const videos = await videoSearch(query, 20);

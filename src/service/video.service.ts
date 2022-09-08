@@ -2,18 +2,16 @@ import { UserModel } from "../models/user.model";
 import { Video, VideoModel } from "../models/video.model";
 
 export async function uploadVideo(
-  ownerId: string,
-  update: Omit<Video, "ownerId" | "tags" | "likes" | "dislikes" | "views">
+  owner: string,
+  update: Omit<Video, "owner" | "tags" | "likes" | "dislikes" | "views">
 ) {
-  const newVideo = new VideoModel({ ownerId, ...update });
-  const savedVideo = await newVideo.save();
-
-  return savedVideo;
+  const newVideo = new VideoModel({ ...update, owner });
+  return await newVideo.save();;
 }
 
 export async function updateVideo(
   videoId: string,
-  update: Omit<Video, "ownerId" | "tags" | "likes" | "dislikes" | "views">,
+  update: Omit<Video, "owner" | "tags" | "likes" | "dislikes" | "views">,
   options: object
 ) {
   const updatedVideo = await VideoModel.findByIdAndUpdate(
@@ -53,7 +51,7 @@ export async function getSubbedVideos(userId: string) {
 
   let list = await Promise.all(
     subbedChannels.map(async (creatorId) => {
-      const video = await VideoModel.find({ ownerId: creatorId });
+      const video = await VideoModel.find({ owner: creatorId });
       return video;
     })
   );
