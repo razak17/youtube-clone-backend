@@ -60,5 +60,5 @@ export async function getSubbedVideos(userId: string) {
       return await VideoModel.find({ ownerId: creatorId });
     })
   );
-  return list;
+  return list.flat();
 }
