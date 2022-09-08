@@ -42,7 +42,7 @@ router.delete("/:userId", requireUser, deleteUserHandler);
 router.put("/sub/:id", requireUser, subscribeHandler);
 
 //unsubscribe a user
-router.put("/unsub/:userId", requireUser, unsubscribeHandler);
+router.put("/unsub/:id", requireUser, unsubscribeHandler);
 
 //like a video
 router.put("/like/:videoId", requireUser, likeHandler);

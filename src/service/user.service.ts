@@ -33,18 +33,16 @@ export async function deleteUser(userId: string) {
 
 export async function subscribe(userId: string, id: string) {
   await UserModel.findByIdAndUpdate(userId, { $push: { subscriptions: id } });
-  await UserModel.findByIdAndUpdate(id, {
-    $inc: { subscriberCount: 1 },
-    $push: { subscribers: userId },
-  });
+  await UserModel.findByIdAndUpdate(id, { $inc: { subscriberCount: 1 } });
+  await UserModel.findByIdAndUpdate(id, { $push: { subscribers: userId } });
+  return;
 }
 
 export async function unsubscribe(userId: string, id: string) {
   await UserModel.findByIdAndUpdate(userId, { $pull: { subscriptions: id } });
-  await UserModel.findByIdAndUpdate(id, {
-    $inc: { subscriberCount: -1 },
-    $pull: { subscribers: id },
-  });
+  await UserModel.findByIdAndUpdate(id, { $inc: { subscriberCount: -1 } });
+  await UserModel.findByIdAndUpdate(id, { $pull: { subscribers: userId } });
+  return;
 }
 
 export async function likeVideo(videoId: string, userId: string) {

@@ -71,15 +71,15 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
 };
 
 export const subscribeHandler = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const userId = res.locals.user._id;
+  const { id } = req.params;
+  const userId = res.locals.user._id;
+  if (id === userId) {
+    return res
+      .status(StatusCodes.FORBIDDEN)
+      .send("Cannot sub to your own channel.");
+  }
 
-    if (id === userId) {
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .send("Cannot sub to your own channel.");
-    }
+  try {
     await subscribe(userId, id);
     return res.status(StatusCodes.OK).send("Subscribed successfully.");
   } catch (e) {
@@ -88,15 +88,16 @@ export const subscribeHandler = async (req: Request, res: Response) => {
 };
 
 export const unsubscribeHandler = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const userId = res.locals.user._id;
+  const { id } = req.params;
+  const userId = res.locals.user._id;
 
-    if (id === userId) {
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .send("Cannot unsub to your own channel.");
-    }
+  if (id === userId) {
+    return res
+      .status(StatusCodes.FORBIDDEN)
+      .send("Cannot unsub to your own channel.");
+  }
+
+  try {
     await unsubscribe(userId, id);
     return res.status(StatusCodes.OK).send("Unsubscribed successfully.");
   } catch (e) {
