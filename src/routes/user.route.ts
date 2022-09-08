@@ -4,13 +4,14 @@ import { processRequestBody } from "zod-express-middleware";
 import requireUser from "../middleware/requireUser";
 import {
   deleteUserHandler,
+  dislikeHandler,
+  likeHandler,
   registerUserHandler,
   subscribeHandler,
   unsubscribeHandler,
   updateUserHandler,
 } from "../controller/user.controller";
 import { registerUserSchema, updateUserSchema } from "../schema/user.schema";
-import { helloHandler } from "../routes";
 
 const router = express.Router();
 
@@ -44,9 +45,9 @@ router.put("/sub/:id", requireUser, subscribeHandler);
 router.put("/unsub/:userId", requireUser, unsubscribeHandler);
 
 //like a video
-router.put("/like/:videoId", requireUser, helloHandler);
+router.put("/like/:videoId", requireUser, likeHandler);
 
 //dislike a video
-router.put("/dislike/:videoId", requireUser, helloHandler);
+router.put("/dislike/:videoId", requireUser, dislikeHandler);
 
 export default router;

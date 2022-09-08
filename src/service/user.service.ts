@@ -1,3 +1,4 @@
+import { VideoModel } from "../models/video.model";
 import { User, UserModel } from "../models/user.model";
 
 export async function findUserByEmail(email: User["email"]) {
@@ -43,5 +44,19 @@ export async function unsubscribe(userId: string, id: string) {
   await UserModel.findByIdAndUpdate(id, {
     $inc: { subscriberCount: -1 },
     $pull: { subscribers: id },
+  });
+}
+
+export async function likeVideo(videoId: string, userId: string) {
+  return await VideoModel.findByIdAndUpdate(videoId, {
+    $addToSet: { likes: userId },
+    $pull: { dislikes: userId },
+  });
+}
+
+export async function dislikeVideo(videoId: string, userId: string) {
+  return await VideoModel.findByIdAndUpdate(videoId, {
+    $addToSet: { dislikes: userId },
+    $pull: { likes: userId },
   });
 }

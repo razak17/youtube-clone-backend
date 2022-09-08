@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { dislikeVideo, likeVideo } from "../service/user.service";
 
 import {
   RegisterUserBody,
@@ -96,6 +97,28 @@ export const unsubscribeHandler = async (req: Request, res: Response) => {
     }
     await unsubscribe(userId, id);
     res.status(StatusCodes.OK).send("Unsubscribed successfully.");
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+};
+
+export const likeHandler = async (req: Request, res: Response) => {
+  const userId = res.locals.user._id;
+  const videoId = req.params.videoId;
+  try {
+    await likeVideo(videoId, userId);
+    res.status(StatusCodes.OK).send("video has been liked.");
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+};
+
+export const dislikeHandler = async (req: Request, res: Response) => {
+  const userId = res.locals.user._id;
+  const videoId = req.params.videoId;
+  try {
+    await dislikeVideo(videoId, userId);
+    res.status(StatusCodes.OK).send("video has been disliked.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }

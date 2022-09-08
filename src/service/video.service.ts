@@ -6,7 +6,7 @@ export async function uploadVideo(
   update: Omit<Video, "owner" | "tags" | "likes" | "dislikes" | "views">
 ) {
   const newVideo = new VideoModel({ ...update, owner });
-  return await newVideo.save();;
+  return await newVideo.save();
 }
 
 export async function updateVideo(
