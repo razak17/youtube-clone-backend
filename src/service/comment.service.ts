@@ -7,3 +7,11 @@ export async function addComment(
   const newComment = new CommentModel({ ...update, owner });
   return await newComment.save();
 }
+
+export async function deleteComment(commentId: string) {
+  return CommentModel.findByIdAndDelete(commentId);
+}
+
+export async function findCommentsByVideoId(videoId: string) {
+  return CommentModel.find({ videoId });
+}

@@ -5,7 +5,7 @@ import { processRequestBody } from "zod-express-middleware";
 import requireUser from "../middleware/requireUser";
 import {
   deleteCommentHandler,
-  getCommentHandler,
+  getCommentsHandler,
   newCommentHandler,
 } from "../controller/comment.controller";
 
@@ -18,8 +18,8 @@ router.post(
   newCommentHandler
 );
 
-router.delete("/:id", requireUser, deleteCommentHandler);
+router.delete("/:commentId", requireUser, deleteCommentHandler);
 
-router.get("/:videoId", requireUser, getCommentHandler);
+router.get("/:videoId", requireUser, getCommentsHandler);
 
 export default router;
