@@ -70,3 +70,11 @@ export async function getRandomVideos(count: number) {
 export async function getVideosByTag(tags: string[], limit: number) {
   return await VideoModel.find({ tags: { $in: tags } }).limit(limit);
 }
+
+export async function videoSearch(query: string, limit: number) {
+  const videos = await VideoModel.find({
+    title: { $regex: query, $options: "i" },
+  }).limit(limit);
+
+  return videos;
+}

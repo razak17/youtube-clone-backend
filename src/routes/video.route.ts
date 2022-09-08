@@ -1,7 +1,6 @@
 import express from "express";
 import { processRequestBody } from "zod-express-middleware";
 
-import { helloHandler } from "../routes";
 import requireUser from "../middleware/requireUser";
 import { updateVideoSchema, uploadVideoSchema } from "../schema/video.schema";
 import {
@@ -13,6 +12,7 @@ import {
   trendingVideosHandler,
   updateVideoHandler,
   uploadVideoHandler,
+  videoSearchHandler,
   viewCountHandler,
 } from "../controller/video.controller";
 
@@ -56,6 +56,6 @@ router.get("/random", randomVideosHandler);
 router.get("/tags", getVideosByTagsHandler);
 
 // Video Search (by title)
-router.get("/search", helloHandler);
+router.get("/search", videoSearchHandler);
 
 export default router;

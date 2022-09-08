@@ -11,6 +11,7 @@ import {
   increaseViewCount,
   updateVideo,
   uploadVideo,
+  videoSearch,
 } from "../service/video.service";
 import { UpdateVideoParams, UploadVideoBody } from "../schema/video.schema";
 import { VideoModel } from "../models/video.model";
@@ -127,13 +128,26 @@ export async function subbedVideosHandler(_: Request, res: Response) {
 }
 
 export async function getVideosByTagsHandler(
-  req: Request<{}, { tags: string }, {}>,
+  req: Request,
   res: Response
 ) {
   const tags = req.query.tags as string;
   const videoTags = tags.split(",");
   try {
     const videos = await getVideosByTag(videoTags, 20);
+    return res.status(StatusCodes.OK).json(videos);
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+}
+
+export async function videoSearchHandler(
+  req: Request,
+  res: Response
+) {
+  const query = req.query.q as string;
+  try {
+    const videos = await videoSearch(query, 20);
     return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
