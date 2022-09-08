@@ -2,13 +2,13 @@ import { getModelForClass, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 
 export class Video extends TimeStamps {
-  @prop()
+  @prop({ required: true })
   public ownerId: string;
 
-  @prop()
+  @prop({ required: true })
   public title: string;
 
-  @prop()
+  @prop({ required: true })
   public description: string;
 
   @prop({ required: true })

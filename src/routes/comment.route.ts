@@ -1,12 +1,25 @@
 import express from "express";
-import { helloHandler } from "../routes";
+import { newCommentSchema } from "../schema/comment.schema";
+import { processRequestBody } from "zod-express-middleware";
+
+import requireUser from "../middleware/requireUser";
+import {
+  deleteCommentHandler,
+  getCommentHandler,
+  newCommentHandler,
+} from "../controller/comment.controller";
 
 const router = express.Router();
 
-router.post("/", helloHandler);
+router.post(
+  "/",
+  requireUser,
+  processRequestBody(newCommentSchema.body),
+  newCommentHandler
+);
 
-router.delete("/:id", helloHandler);
+router.delete("/:id", requireUser, deleteCommentHandler);
 
-router.get("/:id", helloHandler);
+router.get("/:videoId", requireUser, getCommentHandler);
 
 export default router;

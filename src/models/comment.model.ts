@@ -1,17 +1,17 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
+import { User } from "./user.model";
 
-export class Comment extends TimeStamps {
-  @prop({ required: true })
-  public ownerId: string;
+export class Comment {
+  @prop({ required: true, ref: () => User })
+  public owner: string;
 
   @prop({ required: true })
-  public title: string;
+  public videoId: string;
 
   @prop({ required: true })
   public description: string;
 }
 
-export const VideoModel = getModelForClass(Comment, {
+export const CommentModel = getModelForClass(Comment, {
   schemaOptions: { timestamps: true },
 });
