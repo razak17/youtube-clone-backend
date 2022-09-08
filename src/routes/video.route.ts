@@ -7,6 +7,7 @@ import { updateVideoSchema, uploadVideoSchema } from "../schema/video.schema";
 import {
   deleteVideoHandler,
   findVideoHandler,
+  getVideosByTagsHandler,
   randomVideosHandler,
   subbedVideosHandler,
   trendingVideosHandler,
@@ -52,9 +53,9 @@ router.get("/subbed", requireUser, subbedVideosHandler);
 router.get("/random", randomVideosHandler);
 
 // Get videos by tag
-router.get("/tags", helloHandler);
+router.get("/tags", getVideosByTagsHandler);
 
-// Video Search
+// Video Search (by title)
 router.get("/search", helloHandler);
 
 export default router;

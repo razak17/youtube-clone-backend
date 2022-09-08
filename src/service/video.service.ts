@@ -39,10 +39,6 @@ export async function increaseViewCount(videoId: string) {
   });
 }
 
-export async function getRandomVideos(count: number) {
-  return await VideoModel.aggregate([{ $sample: { size: count } }]);
-}
-
 export async function getTrendingVideos() {
   return await VideoModel.find().sort({ views: -1 });
 }
@@ -65,4 +61,12 @@ export async function getSubbedVideos(userId: string) {
   return list
     .flat()
     .sort((a, b) => (b.createdAt as any) - (a.createdAt as any));
+}
+
+export async function getRandomVideos(count: number) {
+  return await VideoModel.aggregate([{ $sample: { size: count } }]);
+}
+
+export async function getVideosByTag(tags: string[], limit: number) {
+  return await VideoModel.find({ tags: { $in: tags } }).limit(limit);
 }

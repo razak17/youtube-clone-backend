@@ -7,6 +7,7 @@ import {
   getRandomVideos,
   getSubbedVideos,
   getTrendingVideos,
+  getVideosByTag,
   increaseViewCount,
   updateVideo,
   uploadVideo,
@@ -119,6 +120,20 @@ export async function subbedVideosHandler(_: Request, res: Response) {
   const userId = res.locals.user._id;
   try {
     const videos = await getSubbedVideos(userId);
+    return res.status(StatusCodes.OK).json(videos);
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+}
+
+export async function getVideosByTagsHandler(
+  req: Request<{}, { tags: string }, {}>,
+  res: Response
+) {
+  const tags = req.query.tags as string;
+  const videoTags = tags.split(",");
+  try {
+    const videos = await getVideosByTag(videoTags, 20);
     return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
