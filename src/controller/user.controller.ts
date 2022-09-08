@@ -49,7 +49,7 @@ export const updateUserHandler = async (
       { new: true }
     );
 
-    res.status(StatusCodes.OK).json(updatedUser);
+    return res.status(StatusCodes.OK).json(updatedUser);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
@@ -64,7 +64,7 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
 
   try {
     await deleteUser(userId);
-    res.status(StatusCodes.OK).send("User deleted.");
+    return res.status(StatusCodes.OK).send("User deleted.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
@@ -76,10 +76,12 @@ export const subscribeHandler = async (req: Request, res: Response) => {
     const userId = res.locals.user._id;
 
     if (id === userId) {
-      res.status(StatusCodes.FORBIDDEN).send("Cannot sub to your own channel.");
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .send("Cannot sub to your own channel.");
     }
     await subscribe(userId, id);
-    res.status(StatusCodes.OK).send("Subscribed successfully.");
+    return res.status(StatusCodes.OK).send("Subscribed successfully.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
@@ -91,12 +93,12 @@ export const unsubscribeHandler = async (req: Request, res: Response) => {
     const userId = res.locals.user._id;
 
     if (id === userId) {
-      res
+      return res
         .status(StatusCodes.FORBIDDEN)
         .send("Cannot unsub to your own channel.");
     }
     await unsubscribe(userId, id);
-    res.status(StatusCodes.OK).send("Unsubscribed successfully.");
+    return res.status(StatusCodes.OK).send("Unsubscribed successfully.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
@@ -107,7 +109,7 @@ export const likeHandler = async (req: Request, res: Response) => {
   const videoId = req.params.videoId;
   try {
     await likeVideo(videoId, userId);
-    res.status(StatusCodes.OK).send("video has been liked.");
+    return res.status(StatusCodes.OK).send("video has been liked.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
@@ -118,7 +120,7 @@ export const dislikeHandler = async (req: Request, res: Response) => {
   const videoId = req.params.videoId;
   try {
     await dislikeVideo(videoId, userId);
-    res.status(StatusCodes.OK).send("video has been disliked.");
+    return res.status(StatusCodes.OK).send("video has been disliked.");
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
