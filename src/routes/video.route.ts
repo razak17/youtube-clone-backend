@@ -37,7 +37,7 @@ router.put(
 router.delete("/:videoId", requireUser, deleteVideoHandler);
 
 // Find video by id
-router.get("/:videoId", requireUser, findVideoHandler);
+router.get("/find/:videoId", requireUser, findVideoHandler);
 
 // Update video view count
 router.put("/view/:videoId", requireUser, viewCountHandler);

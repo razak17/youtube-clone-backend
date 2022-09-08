@@ -49,10 +49,10 @@ export async function getTrendingVideos() {
 
 export async function getSubbedVideos(userId: string) {
   const user = await UserModel.findById(userId);
-  const subbedChannels = user?.subscribers;
+  const subbedChannels = user?.subscriptions;
 
-  if (!subbedChannels || user.subCount === 0) {
-    return false;
+  if (!subbedChannels || user.subscriptions.length === 0) {
+    return {};
   }
 
   const list = await Promise.all(
