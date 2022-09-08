@@ -34,7 +34,7 @@ export async function updateVideoHandler(
   res: Response
 ) {
   const userId = res.locals.user._doc;
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   console.log(userId);
   const video = await VideoModel.findById(videoId);
 
@@ -60,7 +60,7 @@ export async function updateVideoHandler(
 
 export async function deleteVideoHandler(req: Request, res: Response) {
   const userId = res.locals.user._id;
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   const video = await VideoModel.findById(videoId);
 
   if (!video) {
@@ -80,7 +80,7 @@ export async function deleteVideoHandler(req: Request, res: Response) {
 }
 
 export async function findVideoHandler(req: Request, res: Response) {
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   try {
     const video = await findVideoById(videoId);
     return res.status(StatusCodes.OK).json(video);
@@ -90,7 +90,7 @@ export async function findVideoHandler(req: Request, res: Response) {
 }
 
 export async function viewCountHandler(req: Request, res: Response) {
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   try {
     await increaseViewCount(videoId);
     return res.status(StatusCodes.OK).send("View count has increased by 1.");

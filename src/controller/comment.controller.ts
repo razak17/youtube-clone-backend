@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { addComment, deleteComment, findCommentsByVideoId } from "../service/comment.service";
+import {
+  addComment,
+  deleteComment,
+  findCommentsByVideoId,
+} from "../service/comment.service";
 import { newCommentBody } from "../schema/comment.schema";
 import { CommentModel } from "../models/comment.model";
 
@@ -19,7 +23,7 @@ export async function newCommentHandler(
 
 export async function deleteCommentHandler(req: Request, res: Response) {
   const userId = res.locals.user._id;
-  const commentId = req.params.commentId;
+  const { commentId } = req.params;
   const comment = await CommentModel.findById(commentId);
 
   if (!comment) {
@@ -39,7 +43,7 @@ export async function deleteCommentHandler(req: Request, res: Response) {
 }
 
 export async function getCommentsHandler(req: Request, res: Response) {
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   try {
     const comment = await findCommentsByVideoId(videoId);
     return res.status(StatusCodes.OK).json(comment);

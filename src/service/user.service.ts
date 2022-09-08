@@ -31,6 +31,10 @@ export async function deleteUser(userId: string) {
   return UserModel.findByIdAndDelete(userId);
 }
 
+export async function getUserById(userId: string) {
+  return UserModel.findById(userId);
+}
+
 export async function subscribe(userId: string, id: string) {
   await UserModel.findByIdAndUpdate(userId, { $addToSet: { subscriptions: id } });
   await UserModel.findByIdAndUpdate(id, { $inc: { subscriberCount: 1 } });

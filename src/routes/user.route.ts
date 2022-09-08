@@ -5,6 +5,7 @@ import requireUser from "../middleware/requireUser";
 import {
   deleteUserHandler,
   dislikeHandler,
+  getUserHandler,
   likeHandler,
   registerUserHandler,
   subscribeHandler,
@@ -37,6 +38,9 @@ router.put(
 
 //delete user
 router.delete("/:userId", requireUser, deleteUserHandler);
+
+//get a user by id
+router.get("/find/:userId", getUserHandler);
 
 //subscribe a user
 router.put("/sub/:id", requireUser, subscribeHandler);

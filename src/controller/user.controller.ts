@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { dislikeVideo, likeVideo } from "../service/user.service";
+import { dislikeVideo, getUserById, likeVideo } from "../service/user.service";
 
 import {
   RegisterUserBody,
@@ -70,6 +70,16 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
   }
 };
 
+export async function getUserHandler(req: Request, res: Response) {
+  const { userId } = req.params;
+  try {
+    const user = await getUserById(userId);
+    return res.status(StatusCodes.OK).send(user);
+  } catch (e) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+  }
+}
+
 export const subscribeHandler = async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = res.locals.user._id;
@@ -107,7 +117,7 @@ export const unsubscribeHandler = async (req: Request, res: Response) => {
 
 export const likeHandler = async (req: Request, res: Response) => {
   const userId = res.locals.user._id;
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   try {
     await likeVideo(videoId, userId);
     return res.status(StatusCodes.OK).send("video has been liked.");
@@ -118,7 +128,7 @@ export const likeHandler = async (req: Request, res: Response) => {
 
 export const dislikeHandler = async (req: Request, res: Response) => {
   const userId = res.locals.user._id;
-  const videoId = req.params.videoId;
+  const { videoId } = req.params;
   try {
     await dislikeVideo(videoId, userId);
     return res.status(StatusCodes.OK).send("video has been disliked.");
