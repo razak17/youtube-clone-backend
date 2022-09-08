@@ -55,10 +55,14 @@ export async function getSubbedVideos(userId: string) {
     return {};
   }
 
-  const list = await Promise.all(
+  let list = await Promise.all(
     subbedChannels.map(async (creatorId) => {
-      return await VideoModel.find({ ownerId: creatorId });
+      const video = await VideoModel.find({ ownerId: creatorId });
+      return video;
     })
   );
-  return list.flat();
+
+  return list
+    .flat()
+    .sort((a, b) => (b.createdAt as any) - (a.createdAt as any));
 }

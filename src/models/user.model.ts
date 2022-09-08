@@ -1,4 +1,5 @@
 import { getModelForClass, prop, pre } from "@typegoose/typegoose";
+import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import argon2 from "argon2";
 
 @pre<User>("save", async function (next) {
@@ -9,7 +10,7 @@ import argon2 from "argon2";
     return next();
   }
 })
-export class User {
+export class User extends TimeStamps {
   @prop({ required: true, unique: true })
   public name: string;
 

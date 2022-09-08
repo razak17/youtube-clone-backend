@@ -1,6 +1,7 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
+import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 
-export class Video {
+export class Video extends TimeStamps {
   @prop()
   public ownerId: string;
 
