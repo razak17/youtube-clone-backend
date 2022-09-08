@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
 
+import { connect } from "./utils/database";
 import authRoute from "./routes/auth.route";
 import userRoute from "./routes/user.route";
 import videoRoute from "./routes/video.route";
-import { connect } from "./utils/database";
+import commentRoute from "./routes/comment.route";
 import deserializeUser from "./middleware/deserializeUser";
 
 const main = async () => {
@@ -20,6 +21,7 @@ const main = async () => {
   app.use("/api/users", userRoute);
   app.use("/api/auth", authRoute);
   app.use("/api/videos", videoRoute);
+  app.use("/api/comments", commentRoute);
 
   app.listen(port, async () => {
     console.log(`server started on http://localhost:${port}`);

@@ -1,26 +1,17 @@
-import mongoose from "mongoose";
+import { getModelForClass, prop } from "@typegoose/typegoose";
+import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 
-export interface CommentInterface {
-  userId: string;
-  videoId: string;
-  desc: string;
+export class Comment extends TimeStamps {
+  @prop({ required: true })
+  public ownerId: string;
+
+  @prop({ required: true })
+  public title: string;
+
+  @prop({ required: true })
+  public description: string;
 }
 
-export interface UserDocument extends CommentInterface, mongoose.Document {
-  createdAt: Date;
-  updatedAt: Date;
-  comparePassword(candidatePassword: string): Promise<Boolean>;
-}
-
-const userSchema = new mongoose.Schema(
-  {
-    userId: { type: String, required: true },
-    videoId: { type: String, required: true },
-    desc: { type: String, required: true },
-  },
-  { timestamps: true }
-);
-
-const CommentModel = mongoose.model<UserDocument>("User", userSchema);
-
-export default CommentModel;
+export const VideoModel = getModelForClass(Comment, {
+  schemaOptions: { timestamps: true },
+});
