@@ -20,7 +20,7 @@ export async function loginHandler(
       .send("Invalid email or password");
   }
 
-  const payload = omit(user.toJSON(), ["password"]);
+  const payload = omit(user, ["password", "__v"]);
 
   const jwt = signJwt(payload);
 

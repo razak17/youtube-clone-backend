@@ -10,7 +10,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^9.11.2",
     "argon2": "^0.29.1",
     "cookie-parser": "^1.4.6",
     "dayjs": "^1.11.5",
@@ -26,6 +25,7 @@
   },
   "devDependencies": {
     "@fsouza/prettierd": "^0.22.2",
+    "@typegoose/typegoose": "^9.11.2",
     "@types/config": "^3.3.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/dotenv-safe": "^8.1.2",
