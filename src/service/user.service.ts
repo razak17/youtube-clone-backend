@@ -32,9 +32,9 @@ export async function deleteUser(userId: string) {
 }
 
 export async function subscribe(userId: string, id: string) {
-  await UserModel.findByIdAndUpdate(userId, { $push: { subscriptions: id } });
+  await UserModel.findByIdAndUpdate(userId, { $addToSet: { subscriptions: id } });
   await UserModel.findByIdAndUpdate(id, { $inc: { subscriberCount: 1 } });
-  await UserModel.findByIdAndUpdate(id, { $push: { subscribers: userId } });
+  await UserModel.findByIdAndUpdate(id, { $addToSet: { subscribers: userId } });
   return;
 }
 
