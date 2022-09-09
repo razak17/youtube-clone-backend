@@ -12,7 +12,7 @@ import argon2 from "argon2";
 })
 export class User extends TimeStamps {
   @prop({ required: true, unique: true })
-  public name: string;
+  public username: string;
 
   @prop({ required: true, unique: true })
   public email: string;

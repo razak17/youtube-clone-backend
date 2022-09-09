@@ -47,7 +47,7 @@ router.put("/view/:videoId", requireUser, viewCountHandler);
 router.get("/trending", requireUser, trendingVideosHandler);
 
 // Get subscribed channels videos
-router.get("/subbed", requireUser, subbedVideosHandler);
+router.get("/subscriptions", requireUser, subbedVideosHandler);
 
 // Get videos randomly (for home page)
 router.get("/random", randomVideosHandler);

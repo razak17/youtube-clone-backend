@@ -19,12 +19,13 @@ export async function registerUserHandler(
   req: Request<{}, {}, RegisterUserBody>,
   res: Response
 ) {
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    await createUser({ name, email, password });
+    await createUser({ username, email, password });
     return res.status(StatusCodes.CREATED).send("user created successfully");
   } catch (e) {
+    console.log(e);
     if (e.code === 11000) {
       return res.status(StatusCodes.CONFLICT).send("User already exists");
     }
