@@ -17,7 +17,7 @@ import { registerUserSchema, updateUserSchema } from "../schema/user.schema";
 const router = express.Router();
 
 //get current user
-router.get("/me", requireUser, (_, res) => {
+router.get("/me", (_, res) => {
   return res.send(res.locals.user);
 });
 
