@@ -44,7 +44,7 @@ router.get("/find/:videoId", requireUser, findVideoHandler);
 router.put("/view/:videoId", requireUser, viewCountHandler);
 
 // Get trending videos
-router.get("/trending", requireUser, trendingVideosHandler);
+router.get("/trending", trendingVideosHandler);
 
 // Get subscribed channels videos
 router.get("/subscriptions", requireUser, subbedVideosHandler);
