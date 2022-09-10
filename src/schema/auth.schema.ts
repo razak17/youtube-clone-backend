@@ -13,4 +13,19 @@ export const loginSchema = {
   }),
 };
 
+export const googleLoginSchema = {
+  body: object({
+    username: string({
+      required_error: "username is required",
+    }),
+    email: string({
+      required_error: "email is required",
+    }).email("Not a valid email"),
+    profilePic: string({
+      required_error: "profilePic is required",
+    }),
+  }),
+};
+
 export type LoginBody = TypeOf<typeof loginSchema.body>;
+export type GoogleLoginBody = TypeOf<typeof googleLoginSchema.body>;

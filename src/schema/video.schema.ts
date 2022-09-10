@@ -9,7 +9,6 @@ export const uploadVideoSchema = {
   }),
 };
 
-
 export const updateVideoSchema = {
   body: object({
     title: string(),

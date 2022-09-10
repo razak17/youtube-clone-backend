@@ -101,7 +101,7 @@ export async function viewCountHandler(req: Request, res: Response) {
 
 export async function randomVideosHandler(_: Request, res: Response) {
   try {
-    const videos = await getRandomVideos(40);
+    const videos = await getRandomVideos();
     return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
@@ -131,7 +131,7 @@ export async function getVideosByTagsHandler(req: Request, res: Response) {
   const tags = req.query.tags as string;
   const videoTags = tags.split(",");
   try {
-    const videos = await getVideosByTag(videoTags, 20);
+    const videos = await getVideosByTag(videoTags);
     return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
@@ -141,7 +141,7 @@ export async function getVideosByTagsHandler(req: Request, res: Response) {
 export async function videoSearchHandler(req: Request, res: Response) {
   const query = req.query.q as string;
   try {
-    const videos = await videoSearch(query, 20);
+    const videos = await videoSearch(query);
     return res.status(StatusCodes.OK).json(videos);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);

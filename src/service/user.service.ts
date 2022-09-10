@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import { VideoModel } from "../models/video.model";
 import { User, UserModel } from "../models/user.model";
 
@@ -6,17 +7,12 @@ export async function findUserByEmail(email: User["email"]) {
 }
 
 export async function createUser(
-  user: Omit<
-    User,
-    | "comparePassword"
-    | "profilePic"
-    | "subscriberCount"
-    | "subscribers"
-    | "subscriptions"
-    | "fromGoogle"
-  >
+  user: Pick<User, "username" | "email" | "password">
 ) {
-  return UserModel.create(user);
+  const hash = await argon2.hash(user.password);
+  const newUser = new UserModel({ ...user, password: hash });
+
+  return await newUser.save();
 }
 
 export async function updateUser(
@@ -36,7 +32,9 @@ export async function getUserById(userId: string) {
 }
 
 export async function subscribe(userId: string, id: string) {
-  await UserModel.findByIdAndUpdate(userId, { $addToSet: { subscriptions: id } });
+  await UserModel.findByIdAndUpdate(userId, {
+    $addToSet: { subscriptions: id },
+  });
   await UserModel.findByIdAndUpdate(id, { $inc: { subscriberCount: 1 } });
   await UserModel.findByIdAndUpdate(id, { $addToSet: { subscribers: userId } });
   return;

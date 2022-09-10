@@ -61,15 +61,15 @@ export async function getSubbedVideos(userId: string) {
     .sort((a, b) => (b.createdAt as any) - (a.createdAt as any));
 }
 
-export async function getRandomVideos(count: number) {
-  return await VideoModel.aggregate([{ $sample: { size: count } }]);
+export async function getRandomVideos(count: number = 20) {
+  return await VideoModel.find().limit(count);
 }
 
-export async function getVideosByTag(tags: string[], limit: number) {
+export async function getVideosByTag(tags: string[], limit: number = 20) {
   return await VideoModel.find({ tags: { $in: tags } }).limit(limit);
 }
 
-export async function videoSearch(query: string, limit: number) {
+export async function videoSearch(query: string, limit: number = 20) {
   const videos = await VideoModel.find({
     title: { $regex: query, $options: "i" },
   }).limit(limit);
