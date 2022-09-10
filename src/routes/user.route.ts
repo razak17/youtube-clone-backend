@@ -18,12 +18,7 @@ const router = express.Router();
 
 //get current user
 router.get("/me", (_, res) => {
-  const user = res.locals.user;
-
-  if (!user) {
-    return res.json({});
-  }
-  return res.json(user);
+  return res.send(res.locals.user);
 });
 
 //register user
