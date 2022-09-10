@@ -119,6 +119,7 @@ export async function trendingVideosHandler(_: Request, res: Response) {
 
 export async function subbedVideosHandler(_: Request, res: Response) {
   const userId = res.locals.user._id;
+  console.log(userId);
   try {
     const videos = await getSubbedVideos(userId);
     return res.status(StatusCodes.OK).json(videos);

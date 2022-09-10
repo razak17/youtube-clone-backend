@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import { connect } from "./utils/database";
 import authRoute from "./routes/auth.route";
@@ -16,6 +17,13 @@ const main = async () => {
 
   app.use(cookieParser());
   app.use(express.json());
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
+
   app.use(deserializeUser);
 
   app.use("/api/users", userRoute);
