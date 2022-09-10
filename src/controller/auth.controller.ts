@@ -7,6 +7,8 @@ import { signJwt } from "../utils/jwt";
 import { UserModel } from "../models/user.model";
 import argon2 from "argon2";
 
+const COOKIE_NAME = "accessToken";
+
 export async function loginHandler(
   req: Request<{}, {}, LoginBody>,
   res: Response
@@ -29,9 +31,10 @@ export async function loginHandler(
   }
 
   const payload = omit(user.toJSON(), ["password"]);
+  console.log(payload);
   const jwt = signJwt(payload);
 
-  res.cookie("accessToken", jwt, {
+  res.cookie(COOKIE_NAME, jwt, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
     domain: "localhost",
@@ -61,7 +64,7 @@ export async function googleLoginHandler(
     const savedUser = await newUser.save();
 
     const jwt = signJwt(savedUser.toJSON());
-    res.cookie("accessToken", jwt, {
+    res.cookie(COOKIE_NAME, jwt, {
       maxAge: 3.154e10, // 1 year
       httpOnly: true,
       domain: "localhost",
@@ -76,7 +79,7 @@ export async function googleLoginHandler(
   const payload = omit(user.toJSON(), ["password"]);
 
   const jwt = signJwt(payload);
-  res.cookie("accessToken", jwt, {
+  res.cookie(COOKIE_NAME, jwt, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
     domain: "localhost",
@@ -86,4 +89,15 @@ export async function googleLoginHandler(
   });
 
   return res.status(StatusCodes.OK).send(jwt);
+}
+
+export async function logoutHandler(req: Request, res: Response) {
+  const user = res.locals.user;
+  console.log(user);
+
+  if (!user) {
+    return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized.");
+  }
+  res.clearCookie(COOKIE_NAME);
+  res.end();
 }

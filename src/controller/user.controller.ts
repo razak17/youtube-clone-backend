@@ -14,6 +14,7 @@ import {
   unsubscribe,
   updateUser,
 } from "../service/user.service";
+import omit from "../utils/omit";
 
 export async function registerUserHandler(
   req: Request<{}, {}, RegisterUserBody>,
@@ -73,7 +74,12 @@ export async function getUserHandler(req: Request, res: Response) {
   const { userId } = req.params;
   try {
     const user = await getUserById(userId);
-    return res.status(StatusCodes.OK).send(user);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send("User not found.");
+    }
+
+    const payload = omit(user.toJSON(), ["password"]);
+    return res.status(StatusCodes.OK).send(payload);
   } catch (e) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
   }
