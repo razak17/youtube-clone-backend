@@ -38,10 +38,10 @@ router.put(
 router.delete("/:videoId", requireUser, deleteVideoHandler);
 
 // Find video by id
-router.get("/find/:videoId", requireUser, findVideoHandler);
+router.get("/find/:videoId", findVideoHandler);
 
 // Update video view count
-router.put("/view/:videoId", requireUser, viewCountHandler);
+router.put("/view/:videoId", viewCountHandler);
 
 // Get trending videos
 router.get("/trending", trendingVideosHandler);
