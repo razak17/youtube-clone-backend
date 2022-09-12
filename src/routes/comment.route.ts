@@ -20,6 +20,6 @@ router.post(
 
 router.delete("/:commentId", requireUser, deleteCommentHandler);
 
-router.get("/:videoId", requireUser, getCommentsHandler);
+router.get("/:videoId",  getCommentsHandler);
 
 export default router;
