@@ -3,7 +3,7 @@ import { Video, VideoModel } from "../models/video.model";
 
 export async function uploadVideo(
   owner: string,
-  update: Omit<Video, "owner" | "tags" | "likes" | "dislikes" | "views">
+  update: Omit<Video, "owner" | "likes" | "dislikes" | "views">
 ) {
   const newVideo = new VideoModel({ ...update, owner });
   return await newVideo.save();
