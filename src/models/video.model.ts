@@ -21,13 +21,13 @@ export class Video extends TimeStamps {
   @prop({ default: 0 })
   public views: number;
 
-  @prop()
+  @prop({ type: () => [String] })
   public tags: string[];
 
-  @prop()
+  @prop({ type: () => [String] })
   public likes: string[];
 
-  @prop()
+  @prop({ type: () => [String] })
   public dislikes: string[];
 }
 

@@ -6,7 +6,7 @@ export const uploadVideoSchema = {
     description: string(),
     thumbnailUrl: string(),
     videoUrl: string(),
-    tags: string().optional().array(),
+    tags: string().array(),
   }),
 };
 

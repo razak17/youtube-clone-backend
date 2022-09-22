@@ -17,10 +17,10 @@ export class User extends TimeStamps {
   @prop({ default: 0 })
   public subscriberCount: number;
 
-  @prop()
+  @prop({ type: () => [String] })
   public subscriptions: string[];
 
-  @prop()
+  @prop({ type: () => [String] })
   public subscribers: string[];
 
   @prop({ default: false })
