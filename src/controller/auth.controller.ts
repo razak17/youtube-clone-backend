@@ -36,10 +36,9 @@ export async function loginHandler(
   res.cookie(COOKIE_NAME, jwt, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
-    domain: "localhost",
-    path: "/",
-    sameSite: "strict",
-    secure: false,
+    domain: process.env.DOMAIN as string,
+    sameSite: "none",
+    secure: true,
   });
 
   return res.status(StatusCodes.OK).send(jwt);
@@ -66,10 +65,9 @@ export async function googleLoginHandler(
     res.cookie(COOKIE_NAME, jwt, {
       maxAge: 3.154e10, // 1 year
       httpOnly: true,
-      domain: "localhost",
-      path: "/",
-      sameSite: "strict",
-      secure: false,
+      domain: process.env.DOMAIN as string,
+      sameSite: "none",
+      secure: true,
     });
 
     return res.status(StatusCodes.OK).send(jwt);
@@ -84,7 +82,7 @@ export async function googleLoginHandler(
     domain: "localhost",
     path: "/",
     sameSite: "strict",
-    secure: false,
+    secure: true,
   });
 
   return res.status(StatusCodes.OK).send(jwt);
